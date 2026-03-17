@@ -47,7 +47,17 @@ export function getTotalMacros(food: DayEntry["food"]) {
 export function loadEntries(): DayEntry[] {
   try {
     const raw = localStorage.getItem(DATA_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as DayEntry[];
+    // Migrate old entries missing alcoholConsumed
+    return parsed.map((e) => ({
+      ...e,
+      fitness: {
+        ...e.fitness,
+        alcoholConsumed:
+          (e.fitness as { alcoholConsumed?: boolean }).alcoholConsumed ?? false,
+      },
+    }));
   } catch {
     return [];
   }
@@ -110,7 +120,12 @@ export function getEmptyEntry(date: string): DayEntry {
       lunch: "",
       returnHome: "",
     },
-    fitness: { steps: 0, gymAttended: false, workoutDuration: 0 },
+    fitness: {
+      steps: 0,
+      gymAttended: false,
+      workoutDuration: 0,
+      alcoholConsumed: false,
+    },
     food: [],
     productivity: { focusScore: 5, notes: "" },
   };
@@ -129,7 +144,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "13:00",
       returnHome: "19:15",
     },
-    fitness: { steps: 8200, gymAttended: true, workoutDuration: 75 },
+    fitness: {
+      steps: 8200,
+      gymAttended: true,
+      workoutDuration: 75,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",
@@ -198,7 +218,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "13:30",
       returnHome: "18:45",
     },
-    fitness: { steps: 4800, gymAttended: false, workoutDuration: 0 },
+    fitness: {
+      steps: 4800,
+      gymAttended: false,
+      workoutDuration: 0,
+      alcoholConsumed: true,
+    },
     food: [
       {
         id: "1",
@@ -267,7 +292,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "12:45",
       returnHome: "19:00",
     },
-    fitness: { steps: 11500, gymAttended: true, workoutDuration: 75 },
+    fitness: {
+      steps: 11500,
+      gymAttended: true,
+      workoutDuration: 75,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",
@@ -344,7 +374,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "13:00",
       returnHome: "18:45",
     },
-    fitness: { steps: 9500, gymAttended: true, workoutDuration: 75 },
+    fitness: {
+      steps: 9500,
+      gymAttended: true,
+      workoutDuration: 75,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",
@@ -405,7 +440,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "14:00",
       returnHome: "18:15",
     },
-    fitness: { steps: 5200, gymAttended: false, workoutDuration: 0 },
+    fitness: {
+      steps: 5200,
+      gymAttended: false,
+      workoutDuration: 0,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",
@@ -473,7 +513,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "13:00",
       returnHome: "19:00",
     },
-    fitness: { steps: 10800, gymAttended: true, workoutDuration: 75 },
+    fitness: {
+      steps: 10800,
+      gymAttended: true,
+      workoutDuration: 75,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",
@@ -550,7 +595,12 @@ const SAMPLE_ENTRIES: DayEntry[] = [
       lunch: "13:00",
       returnHome: "",
     },
-    fitness: { steps: 7100, gymAttended: true, workoutDuration: 60 },
+    fitness: {
+      steps: 7100,
+      gymAttended: true,
+      workoutDuration: 60,
+      alcoholConsumed: false,
+    },
     food: [
       {
         id: "1",

@@ -23,6 +23,7 @@ export type DayEntry = {
     steps: number;
     gymAttended: boolean;
     workoutDuration: number; // minutes
+    alcoholConsumed: boolean;
   };
   food: FoodEntry[];
   productivity: {

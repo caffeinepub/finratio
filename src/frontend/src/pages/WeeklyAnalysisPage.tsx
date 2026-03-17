@@ -34,6 +34,12 @@ function scoreGym(days: number): Score {
   return "red";
 }
 
+function scoreAlcohol(days: number): Score {
+  if (days === 0) return "green";
+  if (days <= 2) return "yellow";
+  return "red";
+}
+
 const scoreBadge: Record<Score, string> = {
   green: "bg-green-100 text-green-700 border-green-200",
   yellow: "bg-amber-100 text-amber-700 border-amber-200",
@@ -75,6 +81,7 @@ export default function WeeklyAnalysisPage() {
         wakeUp: "—",
         steps: 0,
         gymAttended: false,
+        alcoholConsumed: false,
         workingHours: 0,
         calories: 0,
         focusScore: 0,
@@ -87,6 +94,7 @@ export default function WeeklyAnalysisPage() {
       wakeUp: entry.routine.wakeUp || "—",
       steps: entry.fitness.steps,
       gymAttended: entry.fitness.gymAttended,
+      alcoholConsumed: entry.fitness.alcoholConsumed,
       workingHours: calcHoursDiff(
         entry.routine.officeStart,
         entry.routine.officeEnd,
@@ -99,6 +107,7 @@ export default function WeeklyAnalysisPage() {
 
   const withData = days.filter((d) => d.hasData);
   const gymDays = withData.filter((d) => d.gymAttended).length;
+  const alcoholDays = withData.filter((d) => d.alcoholConsumed).length;
   const avgSteps = withData.length
     ? Math.round(withData.reduce((s, d) => s + d.steps, 0) / withData.length)
     : 0;
@@ -169,6 +178,12 @@ export default function WeeklyAnalysisPage() {
       score: scoreWorkingHours(avgWork),
       goal: "Goal: 7h+",
     },
+    {
+      label: "Alcohol Days",
+      value: `${alcoholDays}/7`,
+      score: scoreAlcohol(alcoholDays),
+      goal: "Goal: 0/week",
+    },
   ];
 
   return (
@@ -194,7 +209,7 @@ export default function WeeklyAnalysisPage() {
       </motion.div>
 
       {/* Averages cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         {summaryItems.map((item, i) => (
           <motion.div
             key={item.label}
@@ -273,6 +288,9 @@ export default function WeeklyAnalysisPage() {
                     Gym
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">
+                    Alcohol
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">
                     Work Hrs
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">
@@ -314,6 +332,21 @@ export default function WeeklyAnalysisPage() {
                           }`}
                         >
                           {day.gymAttended ? "✓ Yes" : "✗ No"}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {day.hasData ? (
+                        <span
+                          className={`text-xs font-medium ${
+                            day.alcoholConsumed
+                              ? "text-red-500"
+                              : "text-green-600"
+                          }`}
+                        >
+                          {day.alcoholConsumed ? "✗ Yes" : "✓ No"}
                         </span>
                       ) : (
                         <span className="text-muted-foreground">—</span>

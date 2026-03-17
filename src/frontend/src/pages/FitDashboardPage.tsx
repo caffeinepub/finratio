@@ -1,7 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Clock, Dumbbell, Flame, Footprints, Zap } from "lucide-react";
+import {
+  Brain,
+  Clock,
+  Dumbbell,
+  Flame,
+  Footprints,
+  Wine,
+  Zap,
+} from "lucide-react";
 import { motion } from "motion/react";
 import {
   Bar,
@@ -92,6 +100,7 @@ export default function FitDashboardPage() {
     100,
     Math.round((entry.fitness.steps / goals.dailySteps) * 100),
   );
+  const alcoholConsumed = entry.fitness.alcoholConsumed;
 
   const last7 = getLast7Days();
 
@@ -200,6 +209,18 @@ export default function FitDashboardPage() {
         />
         <SummaryCard
           index={4}
+          icon={Wine}
+          label="Alcohol"
+          value={alcoholConsumed ? "Yes" : "No"}
+          sub={alcoholConsumed ? "Consumed today" : "Alcohol-free today"}
+          color={
+            alcoholConsumed
+              ? "bg-red-50 text-red-500"
+              : "bg-green-50 text-green-500"
+          }
+        />
+        <SummaryCard
+          index={5}
           icon={Brain}
           label="Focus Score"
           value={
@@ -210,7 +231,7 @@ export default function FitDashboardPage() {
           color="bg-purple-50 text-purple-500"
         />
         <SummaryCard
-          index={5}
+          index={6}
           icon={Zap}
           label="Gym Streak"
           value={`${gymStreak} days`}

@@ -35,7 +35,7 @@ export default function FitnessNavigation({
             </div>
             <div>
               <h1 className="font-display font-bold text-base text-foreground leading-tight">
-                Life & Fitness
+                getfitbydipvai
               </h1>
               <p className="text-xs text-muted-foreground">Daily Tracker</p>
             </div>

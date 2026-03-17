@@ -211,7 +211,7 @@ export default function DailyLogPage() {
           <CardTitle className="text-base font-display">💪 Fitness</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-1.5">
               <Label
                 htmlFor="steps"
@@ -282,6 +282,32 @@ export default function DailyLogPage() {
                   }`}
                 >
                   {entry.fitness.gymAttended ? "Yes ✓" : "No"}
+                </span>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-muted-foreground">
+                Alcohol Today
+              </Label>
+              <div className="flex items-center gap-3 pt-2">
+                <Switch
+                  data-ocid="daily.alcohol.toggle"
+                  checked={entry.fitness.alcoholConsumed}
+                  onCheckedChange={(v) =>
+                    setEntry((prev) => ({
+                      ...prev,
+                      fitness: { ...prev.fitness, alcoholConsumed: v },
+                    }))
+                  }
+                />
+                <span
+                  className={`text-sm font-medium ${
+                    entry.fitness.alcoholConsumed
+                      ? "text-red-500"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {entry.fitness.alcoholConsumed ? "Yes" : "No ✓"}
                 </span>
               </div>
             </div>
