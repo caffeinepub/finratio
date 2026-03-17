@@ -1,34 +1,36 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import { BookmarkProvider } from "./contexts/BookmarkContext";
-import { DarkModeProvider } from "./contexts/DarkModeContext";
-import ComparePage from "./pages/ComparePage";
-import DashboardPage from "./pages/DashboardPage";
-import HomePage from "./pages/HomePage";
-import LibraryPage from "./pages/LibraryPage";
-import RatioDetailPage from "./pages/RatioDetailPage";
+import { Toaster } from "@/components/ui/sonner";
+import { useState } from "react";
+import FitnessNavigation from "./components/FitnessNavigation";
+import { FitnessProvider } from "./contexts/FitnessContext";
+import DailyLogPage from "./pages/DailyLogPage";
+import FitDashboardPage from "./pages/FitDashboardPage";
+import GoalsPage from "./pages/GoalsPage";
+import JournalPage from "./pages/JournalPage";
+import WeeklyAnalysisPage from "./pages/WeeklyAnalysisPage";
+
+export type Page = "dashboard" | "daily-log" | "weekly" | "goals" | "journal";
 
 export default function App() {
+  const [activePage, setActivePage] = useState<Page>("dashboard");
+
   return (
-    <DarkModeProvider>
-      <BookmarkProvider>
-        <BrowserRouter>
-          <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-            <Navbar />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/library" element={<LibraryPage />} />
-                <Route path="/ratio/:id" element={<RatioDetailPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/compare" element={<ComparePage />} />
-              </Routes>
-            </main>
-            <Footer />
+    <FitnessProvider>
+      <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
+        <FitnessNavigation
+          activePage={activePage}
+          setActivePage={setActivePage}
+        />
+        <main className="md:pl-64 pb-24 md:pb-8">
+          <div className="max-w-4xl mx-auto p-4 md:p-8">
+            {activePage === "dashboard" && <FitDashboardPage />}
+            {activePage === "daily-log" && <DailyLogPage />}
+            {activePage === "weekly" && <WeeklyAnalysisPage />}
+            {activePage === "goals" && <GoalsPage />}
+            {activePage === "journal" && <JournalPage />}
           </div>
-        </BrowserRouter>
-      </BookmarkProvider>
-    </DarkModeProvider>
+        </main>
+      </div>
+      <Toaster />
+    </FitnessProvider>
   );
 }

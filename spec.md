@@ -1,37 +1,33 @@
-# FinRatio - Financial Ratios Learning & Calculator App
+# Daily Life & Fitness Tracker
 
 ## Current State
-New project. No existing code.
+Existing workspace contains the FinRatio financial ratios app. This is a new application replacing it.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Homepage with headline, intro, and category cards (Profitability, Liquidity, Solvency, Efficiency, Valuation)
-- Financial Ratio Library: 14 ratios across 5 categories
-- Per-ratio detail pages with definition, formula, components, interpretation, real-world example, industry benchmark
-- Interactive calculators for each ratio with auto-calculation and result interpretation
-- Learning Mode toggle ("Explain Like I'm 5") that switches content to simpler language
-- Tooltips for financial terms
-- Bar/gauge charts for ratio results
-- Company Dashboard: input financials, auto-calculate all ratios, show strong/weak insights
-- Comparison Tool: input two companies and compare their ratios side-by-side
-- Search bar for filtering ratios
-- Bookmark/save ratios (persisted in backend per user session)
-- Dark mode toggle
-- Role: anonymous access, bookmarks stored by principal
+- Daily routine tracking: wake-up, sleep, gym start/end, office start/end, lunch, return home
+- Fitness tracking: steps (manual), gym attendance toggle, workout duration, auto gym days/week count
+- Food & calorie tracking: food item input with built-in calorie database, macro breakdown (protein, carbs, fats), daily totals
+- Productivity tracking: auto-calculated working hours from office times, focus score (1-10)
+- Weekly analysis dashboard: averages for all metrics, green/yellow/red scoring, insights
+- Charts: bar chart for weekly habits, pie chart for calorie/macro breakdown
+- Streak tracker for gym attendance
+- Goal setting: daily step goal, calorie goal
+- Notes/journal section per day
+- Daily summary cards on dashboard
+- All data persisted via backend (Motoko stable storage)
 
 ### Modify
-- N/A (new project)
+- Project renamed from FinRatio to Daily Life & Fitness Tracker
 
 ### Remove
-- N/A (new project)
+- All FinRatio financial ratio content
 
 ## Implementation Plan
-1. Backend: store bookmarked ratios per user (principal -> list of ratio IDs). Expose get/add/remove bookmark calls.
-2. Frontend: React SPA with React Router for navigation between Home, Library, Ratio Detail, Dashboard, Comparison pages.
-3. Ratio data defined as a static TypeScript data file (all 14 ratios with definitions, formulas, ELI5 explanations, benchmarks).
-4. Calculator components with controlled inputs and live computed output.
-5. Recharts for gauge/bar visualization of ratio results.
-6. Dark mode via Tailwind dark class toggled by context.
-7. Bookmarks wired to backend canister calls.
-8. Comparison tool as a dedicated page with two sets of financial inputs.
+1. Backend: stable storage for daily entries (routine, fitness, food log, productivity, notes); CRUD operations per date; weekly data query; goal storage
+2. Built-in food database in frontend (100+ common foods with calories/macros)
+3. Frontend pages: Dashboard (today summary + weekly charts), Daily Log (input form), Weekly Analysis, Goals, Journal
+4. Charts using recharts for weekly bar chart and macro pie chart
+5. Streak calculation logic based on consecutive gym days
+6. Color-coded scoring: green (on track), yellow (moderate), red (needs improvement)
